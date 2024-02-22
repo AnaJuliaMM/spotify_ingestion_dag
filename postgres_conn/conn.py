@@ -16,50 +16,35 @@ try:
     # Carrega os dados JSON do arquivo em um dicionário Python
         dados = json.load(arquivo)
 
-    # cursor.execute(
-    #        f"INSERT INTO Musica ( nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) VALUES "
-    #         f"('{dados['tracks']['items'][0]['track']['name']}', "
-    #         f"{dados['tracks']['items'][0]['track']['duration_ms']}, '{dados['tracks']['items'][0]['track']['artists'][0]['name']}', "
-    #         f"'{dados['tracks']['items'][0]['track']['album']['name']}', '{dados['tracks']['items'][0]['track']['album']['release_date']}', "
-    #         f"{dados['tracks']['items'][0]['track']['album']['total_tracks']})"
-    #     )
-
-
-
-    for track in dados["tracks"]["items"]['track']:
+    # Construção e execução da inserção de dados
+    for item in dados["tracks"]["items"]:
         try:
+            # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
+            track = item['track']
 
-            # Extrair os nomes dos artistas
+            # Extrair os nomes dos artistas e concatenar usando a palavra 'e'
             nomes_artistas = [artista['name'] for artista in track['album']['artists']]
-
-            # Juntar os nomes dos artistas em uma única string separada por vírgulas
-            artistas_str = ', '.join(nomes_artistas)
-
-
+            artistas_str = ' e '.join(nomes_artistas)
+            
+            # Tratar strings que contenham apóstrofos
+            track_name = track['name'].replace("'", "''")
+            album_name = track['album']['name'].replace("'", "''")
+            
             cursor.execute(
-            f"INSERT INTO Musica ( nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) VALUES "
-                f"('{track['name']}', "
-                f"{ track['duration_ms']}, '{artistas_str}', "
-                f"'{track['album']['name']}', '{track['album']['release_date']}', "
-                f"{track['album']['total_tracks']})"
+                f"INSERT INTO Musica (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
+                f"VALUES ('{track_name}', {track['duration_ms']}, '{artistas_str}', '{album_name}', TO_DATE('{track['album']['release_date']}', 'YYYY-MM-DD'), {track['album']['total_tracks']})"
             )
+
         except psycopg2.Error as e:
             print("Erro ao inserir dados no PostgreSQL:", e)
 
-
-
+    # Confirmação da operação de inserção de dados e encerramento da conexão com o banco de dados
     conn.commit()
-    result = cursor.fetchall()
-    print(result)
-    cursor.close()
-    conn.close()
-
 
 except Exception as e:
     print(e)
 finally:
-    if conn is not None:
-        cursor.close()
-        conn.close()
-        print('PostgreSQL connection is closed')
+    cursor.close()
+    conn.close()
+    print('PostgreSQL connection is closed')
 
