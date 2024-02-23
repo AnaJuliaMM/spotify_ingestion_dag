@@ -20,7 +20,7 @@ def request_token():
     if token.status_code == 200:
         # Se a resposta for bem sucedida, imprima os dados
         print(token.json())
-        return token.json()
+        return token.json()['access_token']
 
     else:
         # Se não, imprima o status code
@@ -31,7 +31,7 @@ try:
 
     url = "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/tracks"
 
-    token = request_token()['access_token']
+    token = request_token()
     headers = {
         "Authorization": f"Bearer {token}"
     }
