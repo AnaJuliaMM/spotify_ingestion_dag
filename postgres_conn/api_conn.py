@@ -2,16 +2,15 @@ import psycopg2
 import json
 import requests
 
-
-def request_api():
-   # URL para solicitar o token de acesso
+def request_token():
+    # URL para solicitar o token de acesso
     token_url = 'https://accounts.spotify.com/api/token'
 
     # Dados para a solicitação do token
     token_data = {
         'grant_type': 'client_credentials',
-        'client_id': '',
-        'client_secret': ''
+        'client_id': 'a1e3602181c5430b821cd0adfb764139',
+        'client_secret': 'a1e3602181c5430b821cd0adfb764139'
     }
 
     # Fazer a solicitação do token
@@ -21,14 +20,42 @@ def request_api():
     if token.status_code == 200:
         # Se a resposta for bem sucedida, imprima os dados
         print(token.json())
+        return token.json()
+
     else:
         # Se não, imprima o status code
-        print(f"Erro: {token.status_code}")
+        print(f"Erro: {token.status_code}") 
+        return token.status_code
 
+try:
 
+    url = "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n"
 
-request_api()
+    token= request_token()
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
 
+    # Enviar solicitação GET para a API do Spotify com o token de acesso no cabeçalho de autorização
+    response = requests.get(url, headers=headers)
+
+    # Verificar se a solicitação foi bem-sucedida (código de status 200)
+    if response.status_code == 200:
+        # Converter a resposta JSON em um dicionário Python
+        dados_playlist = response.json()
+
+        # Agora você pode usar os dados da playlist conforme necessário
+        print("Nome da playlist:", dados_playlist["name"])
+        print("Número de faixas na playlist:", dados_playlist["tracks"]["total"])
+    else:
+        # Se a solicitação não for bem-sucedida, imprima o código de status
+        print("Erro ao acessar a API. Código de status:", response.status_code)
+
+except requests.RequestException as e:
+    # Se ocorrer um erro ao fazer a solicitação, imprima o erro
+    print("Erro ao fazer solicitação para a API do Spotify:", e)
+
+# O restante do código está comentado porque não está sendo usado no momento
 
 # try:
 #     # Conectar com o banco de dados
