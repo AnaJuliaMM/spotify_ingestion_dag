@@ -54,20 +54,19 @@ def request_playlist():
         print("Erro ao fazer solicitação para a API do Spotify:", e)
 
 
-
 try:
     # Conectar com o banco de dados
     conn = psycopg2.connect(
                 host="localhost",
                 user="postgres",
                 password="12345678",
-                database="playlist"
+                database="Spotify_Database"
             )
     cursor = conn.cursor()
 
 
     dados = request_playlist()
-   
+
 
     # Construção e execução da inserção de dados
     for item in dados["tracks"]["items"]:
