@@ -9,8 +9,8 @@ def request_token():
     # Dados para a solicitação do token
     token_data = {
         'grant_type': 'client_credentials',
-        'client_id': 'a1e3602181c5430b821cd0adfb764139',
-        'client_secret': 'a1e3602181c5430b821cd0adfb764139'
+        'client_id': '',
+        'client_secret': ''
     }
 
     # Fazer a solicitação do token
@@ -24,14 +24,14 @@ def request_token():
 
     else:
         # Se não, imprima o status code
-        print(f"Erro: {token.status_code}") 
+        print(f"Erro status : {token.status_code}") 
         return token.status_code
 
 try:
 
-    url = "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n"
+    url = "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/tracks"
 
-    token= request_token()
+    token = request_token()['access_token']
     headers = {
         "Authorization": f"Bearer {token}"
     }
@@ -45,8 +45,7 @@ try:
         dados_playlist = response.json()
 
         # Agora você pode usar os dados da playlist conforme necessário
-        print("Nome da playlist:", dados_playlist["name"])
-        print("Número de faixas na playlist:", dados_playlist["tracks"]["total"])
+        print("Nome da playlist:", dados_playlist)
     else:
         # Se a solicitação não for bem-sucedida, imprima o código de status
         print("Erro ao acessar a API. Código de status:", response.status_code)
