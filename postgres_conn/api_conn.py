@@ -29,7 +29,7 @@ def request_token():
 
 try:
 
-    url = "https://api.spotify.com/v1/playlists/3cEYpjA9oz9GiPac4AsH4n/tracks"
+    url = "https://api.spotify.com/v1/playlists/1BZo9URfhmlnt67zRYgM79?si=580665a897e54c64/tracks"
 
     token = request_token()
     headers = {
@@ -48,7 +48,7 @@ try:
         print("Nome da playlist:", dados_playlist)
     else:
         # Se a solicitação não for bem-sucedida, imprima o código de status
-        print("Erro ao acessar a API. Código de status:", response.status_code)
+        print("Erro ao acessar a playlist. Código de status:", response.status_code)
 
 except requests.RequestException as e:
     # Se ocorrer um erro ao fazer a solicitação, imprima o erro
