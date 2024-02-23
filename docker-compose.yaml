@@ -116,6 +116,7 @@ services:
 
   airflow-webserver:
     <<: *airflow-common
+    # build: .
     command: webserver
     ports:
       - "8080:8080"
