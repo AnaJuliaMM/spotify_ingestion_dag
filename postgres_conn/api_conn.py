@@ -2,6 +2,7 @@ import psycopg2
 import json
 import requests
 
+#  Etapa 1 - Faz a requisição do Token
 def request_token():
     # URL para solicitar o token de acesso
     token_url = 'https://accounts.spotify.com/api/token'
@@ -27,6 +28,7 @@ def request_token():
         print(f"Erro status : {token.status_code}") 
         return token.status_code
 
+# Etapa 2 - Faz a requisição das músicas
 def request_playlist():
     try:
 
@@ -53,6 +55,7 @@ def request_playlist():
         # Se ocorrer um erro ao fazer a solicitação, imprima o erro
         print("Erro ao fazer solicitação para a API do Spotify:", e)
 
+# Etapa 3 - Conexão com o banco de dados e inserção
 def insert_database():
     try:
         # Conectar com o banco de dados
@@ -99,5 +102,6 @@ def insert_database():
         cursor.close()
         conn.close()
         print('PostgreSQL connection is closed')
+
 
 insert_database();
