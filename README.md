@@ -1,4 +1,4 @@
-# DAG de ingestão de dados
+ter# DAG de ingestão de dados
 Esse repositório contém o código para execução de uma DAG (Directed Acyclic Graph), orquestrada pelo Apache Airflow, responsável por realizar a ingestão de músicas de uma playlist do Spotify para um banco de dados PostgreSQL.
 
 Acesse nossos recursos: 🔗
@@ -8,7 +8,7 @@ Acesse nossos recursos: 🔗
 ## Pré-requisitos
 Antes de executar esta aplicação, é necessário garantir que você tenha os seguintes pré-requisitos instalados:
 
-- Python (versão 3.6 ou superior)
+- Python (versão 3.11.0 ou superior)
 - Apache Airflow - [tutorial de instalaçao e configuração](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html#initialize-the-database)
 - PostgreSQL - [tutotial de download](https://www.postgresql.org/download/)
 - Conta de desenvolvedor no Spotify para acesso à API
