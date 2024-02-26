@@ -7,7 +7,7 @@ Acesse nossos recursos: 🔗
 
 ## Estrutrura do projeto
 - `dags:` DAGS
-- `markdown:` recursos de documentação
+- `markdowns:` recursos de documentação
 - `postgres_conn:` scripts Python utilizados antes do desenvolvimento da DAG para execução manual
 - `docker-compose.yaml:` executar Apache Airflow no Docker
 
