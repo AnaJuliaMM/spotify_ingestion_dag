@@ -1,4 +1,4 @@
-ter# DAG de ingestão de dados
+# DAG de ingestão de dados
 Esse repositório contém o código para execução de uma DAG (Directed Acyclic Graph), orquestrada pelo Apache Airflow, responsável por realizar a ingestão de músicas de uma playlist do Spotify para um banco de dados PostgreSQL.
 
 Acesse nossos recursos: 🔗
