@@ -5,6 +5,12 @@ Acesse nossos recursos: 🔗
 - [Engenharia de Dados](./markdowns/engenharia_dados.md)
 - [Documentação da DAG](./markdowns/dag_ingestao.md)
 
+## Estrutrura do projeto
+- `dags:` DAGS
+- `markdown:` recursos de documentação
+- `postgres_conn:` scripts Python utilizados antes do desenvolvimento da DAG para execução manual
+- `docker-compose.yaml:` executar Apache Airflow no Docker
+
 ## Pré-requisitos
 Antes de executar esta aplicação, é necessário garantir que você tenha os seguintes pré-requisitos instalados:
 
@@ -23,6 +29,8 @@ Siga os passos abaixo para executar a aplicação:
 3. Configure as variáveis de ambiente necessárias (credenciais do usuário e credenciais de conexão com o banco de dados)
 4. Execute a DAG de ingestão de músicas do Spotify no Apache Airflow.
 5. Monitore o progresso da execução da DAG no painel do Apache Airflow e verifique se não há erros relatados.
+
+
 
 ## Resultado esperado
 ![Captura de tela 2024-02-26 105852](https://github.com/AnaJuliaMM/comite_2602/assets/123522605/29ab1cc4-0843-4711-85f7-7edf9ff1d55c)
