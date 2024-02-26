@@ -3,7 +3,7 @@
 
 ### O que é Engenharia de Dados?
 
-A Engenharia de Dados é o processo de coleta, processamento e análise de dados brutos de múltiplas fontes e formatos para obter informações acionáveis. Esses sistemas capacitam as pessoas a encontrarem aplicações práticas para os dados, os quais as empresas podem usar para prosperar, tomando decisões informadas com base em dados.
+A engenharia de dados é a área responsável por desenvolver, implementar e manter um ambiente propício para armazenamento e processamento de grandes quantidades de dados. Esses ambientes tem processos que chamamos de pipelines, que contém etapas relacionadas a fluxos de dados, desde a extração passando pelo armazenamento até a distribuição dos dados para consumo.
 
 ### Diferença entre Engenheiro de dados e Analista de dados
 
