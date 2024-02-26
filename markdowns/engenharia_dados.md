@@ -6,10 +6,7 @@
 A engenharia de dados é a área responsável por desenvolver, implementar e manter um ambiente propício para armazenamento e processamento de grandes quantidades de dados. Esses ambientes tem processos que chamamos de pipelines, que contém etapas relacionadas a fluxos de dados, desde a extração passando pelo armazenamento até a distribuição dos dados para consumo.
 
 ### Pipelines 
-É um processo composto por várias etapas, que possuem essencialmente 3 passos: 
-    1. extração na origem
-    2. processamento
-    3. Carregamenti no destino
+É um processo composto por várias etapas, que possuem essencialmente 3 passos: Extração na origem, processamento e carregamento no destino
 ![Pipelines](https://blog.zooxsmart.com/hubfs/imagem-pt-Artigo-de-Blog--Pipeline-de-dados.jpg)
 ### Diferença entre Engenheiro de dados e Analista de dados
 
