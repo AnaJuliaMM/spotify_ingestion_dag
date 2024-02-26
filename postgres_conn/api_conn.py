@@ -10,8 +10,8 @@ def request_token():
     # Dados para a solicitação do token
     token_data = {
         'grant_type': 'client_credentials',
-        'client_id': 'e428a5bd96704853ae2952c2933e77a8',
-        'client_secret': '0cc687396da94262aaf3b21870a10b7c'
+        'client_id': '',
+        'client_secret': ''
     }
 
     # Fazer a solicitação do token
