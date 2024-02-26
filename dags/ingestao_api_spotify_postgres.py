@@ -34,7 +34,7 @@ def requisitar_token():
 def ingestao(task_instance):
     try:
 
-        url = "https://api.spotify.com/v1/playlists/1BZo9URfhmlnt67zRYgM79?si=580665a897e54c64/tracks"
+        url = "https://api.spotify.com/v1/playlists/4qNBEfMO6fdn2k9xuFVeDQ/tracks"
 
         token = task_instance.xcom_pull(task_ids="requisitar_token")
         headers = {
@@ -59,7 +59,7 @@ def ingestao(task_instance):
                 cursor = conn.cursor()
 
                 # Construção e execução da inserção de dados
-                for item in dados["tracks"]["items"]:
+                for item in dados["items"]:
                     try:
                         # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
                         track = item['track']
