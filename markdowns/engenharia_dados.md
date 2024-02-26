@@ -31,6 +31,6 @@ Um conceito importante na Engenharia de Dados são os DAGs. Eles são usados par
 ![Exemplo de DAG](https://cdn-us1.hash.ai/site/dag-example.png)
 
 
-### Exemplo de DAG
+### [Exemplo de DAG](dag_ingestao.md)
 
 Temos um pipeline de dados que envolve a coleta de dados de uma fonte, a transformação desses dados e, finalmente, o carregamento dos dados em um armazenamento de destino.
