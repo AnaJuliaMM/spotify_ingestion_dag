@@ -10,8 +10,8 @@ def request_token():
     # Dados para a solicitação do token
     token_data = {
         'grant_type': 'client_credentials',
-        'client_id': 'a1e3602181c5430b821cd0adfb764139',
-        'client_secret': '405594b52fb147f999afe2d89e680b35'
+        'client_id': 'e428a5bd96704853ae2952c2933e77a8',
+        'client_secret': '0cc687396da94262aaf3b21870a10b7c'
     }
 
     # Fazer a solicitação do token
@@ -32,7 +32,7 @@ def request_token():
 def request_playlist():
     try:
 
-        url = "https://api.spotify.com/v1/playlists/1BZo9URfhmlnt67zRYgM79?si=580665a897e54c64/tracks"
+        url = "https://api.spotify.com/v1/playlists/4EtEkrk0Mo9tPXjuC9yN3M/tracks"
 
         token = request_token()
         headers = {
@@ -66,13 +66,11 @@ def insert_database():
                     database="Spotify_Database"
                 )
         cursor = conn.cursor()
-
-
         dados = request_playlist()
 
 
         # Construção e execução da inserção de dados
-        for item in dados["tracks"]["items"]:
+        for item in dados["items"]:
             try:
                 # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
                 track = item['track']
@@ -89,7 +87,6 @@ def insert_database():
                     f"INSERT INTO Musica (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
                     f"VALUES ('{track_name}', {track['duration_ms']}, '{artistas_str}', '{album_name}', TO_DATE('{track['album']['release_date']}', 'YYYY-MM-DD'), {track['album']['total_tracks']})"
                 )
-
             except psycopg2.Error as e:
                 print("Erro ao inserir dados no PostgreSQL:", e)
 
