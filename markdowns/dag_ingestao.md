@@ -10,11 +10,6 @@ Antes de entrarmos nos detalhes da DAG em si, é importante entendermos o contex
 A Spotify API é uma interface de programação que permite aos desenvolvedores acessarem  recursos e dados fornecidos pelo serviço de streaming de música Spotify. 
 Neste projeto, utilizou-se o serviço que fornece uma lista com os detalhes das músicas que compõem uma playlist da qual o usuário é proprietário. [Obtenha itens da lista de reprodução (doc)](https://developer.spotify.com/documentation/web-api/reference/get-playlists-tracks)
  
-### [Apache Airflow](https://airflow.apache.org/)
-
-O Apache Airflow é uma plataforma de código aberto para **criar**, **agendar** e **monitorar** fluxos de trabalho (ou DAGs). Ele permite definir tarefas dentro de **fluxos de trabalho interativos e visuais**, facilitando a orquestração de processos complexos.
-Todos os fluxos de trabalhos do Apache Airflow (DAG) são definidos em código Python. 
-
 ### [XCOM - Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/xcoms.html)
 No contexto do Apache Airflow, XCom (Cross Communication) é um sistema que permite a comunicação entre tarefas dentro de uma mesma DAG, permitindo o **compartilhamento de dados entre elas**. Isso é especialmente útil quando uma tarefa precisa passar informações para outra durante a execução do fluxo de trabalho. No entanto, os XCOMs são projetados **apenas para pequenas quantidades de dados**, ele não deve ser utilizado para passar grandes valores, como dataframes. 
 
