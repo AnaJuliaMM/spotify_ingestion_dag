@@ -36,8 +36,16 @@ Foi criado um banco de dados no PostgreSQL, e construída uma tabela para armaze
 
 ### 3. Código da DAG
 - Código da DAG: [ingestao_api_spotify_postgres.py](../dags/ingestao_api_spotify_postgres.py)
+- Variáveis de ambiente:
+  
+  <img width="900" alt="image" src="https://github.com/AnaJuliaMM/comite_2602/assets/123522605/8e00b9c9-8f19-49db-96ab-3a27226a36b2">
+- Execução:
+  
+  https://github.com/AnaJuliaMM/comite_2602/assets/123522605/8a97abae-a940-4210-a961-e75fef4639b6
+- XCOM:
+  
+   <img width="700" alt="image" src="https://github.com/AnaJuliaMM/comite_2602/assets/123522605/8215c95d-8cff-4b13-9f01-b7767a23f3fc">
 
-https://github.com/AnaJuliaMM/comite_2602/assets/123522605/8a97abae-a940-4210-a961-e75fef4639b6
 
 
 ### 4. Dados ingeridos
