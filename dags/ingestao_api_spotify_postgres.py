@@ -33,8 +33,8 @@ def requisitar_token():
 # Etapa 2 - Faz a requisição das músicas
 def ingestao(task_instance):
     try:
-
-        url = "https://api.spotify.com/v1/playlists/4qNBEfMO6fdn2k9xuFVeDQ/tracks"
+        playlist_id = Variable.get("playlist_id")
+        url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         token = task_instance.xcom_pull(task_ids="requisitar_token")
         headers = {
