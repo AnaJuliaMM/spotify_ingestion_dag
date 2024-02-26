@@ -10,7 +10,7 @@ A engenharia de dados é a área responsável por desenvolver, implementar e man
 ![Pipelines](https://blog.zooxsmart.com/hubfs/imagem-pt-Artigo-de-Blog--Pipeline-de-dados.jpg)
 ### Diferença entre Engenheiro de dados e Analista de dados
 
-Os engenheiros de dados são responsáveis por reunir, validar e preparar os dados, garantindo sua qualidade e disponibilidade para análise. Por outro lado, os cientistas de dados utilizam esses dados preparados para extrair insights e promover melhores decisões de negócios por meio de análises avançadas e modelagem estatística
+Os engenheiros de dados são responsáveis por reunir, validar e preparar os dados, garantindo sua qualidade e disponibilidade para análise. Por outro lado, os analistas de dados utilizam esses dados preparados para extrair insights e promover melhores decisões de negócios por meio de análises avançadas e modelagem estatística
 
 ### Batch vs. Streaming
 
@@ -24,9 +24,15 @@ Ambas as abordagens têm suas vantagens e desvantagens. O Batch é eficaz para p
 
 ![Batch vs Streaming](https://k21academy.com/wp-content/uploads/2020/11/BatchProcessingStreamProcessing_Diagram-02.png)
 
+# [Apache Airflow](https://airflow.apache.org/)
+
+O Apache Airflow é uma plataforma de código aberto para **criar**, **agendar** e **monitorar** pipelines de dados (ou DAGs). Ele permite definir tarefas dentro de **fluxos de trabalho interativos e visuais**, facilitando a orquestração de processos complexos.
+Todos os fluxos de trabalhos do Apache Airflow (DAG) são definidos em código Python. 
+
+
 ### DAGs (Directed Acyclic Graphs)
 
-Um conceito importante na Engenharia de Dados são os DAGs. Eles são usados para representar visualmente o fluxo de trabalho de dados, mostrando a dependência entre as tarefas.
+Um conceito importante no Apache Airflow são os DAGs. Eles são usados para representar visualmente o fluxo de trabalho de dados, mostrando a dependência entre as tarefas.
 
 ![Exemplo de DAG](https://cdn-us1.hash.ai/site/dag-example.png)
 
