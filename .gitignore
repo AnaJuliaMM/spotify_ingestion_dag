@@ -1,3 +1,4 @@
 .env
 postgres_conn/venv
 logs
+venv
