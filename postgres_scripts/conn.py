@@ -14,7 +14,7 @@ try:
     cursor = conn.cursor()
 
    # Abre o arquivo 'dados.json' para leitura
-    with open('./sample/output.json', 'r', encoding='utf-8') as arquivo:
+    with open('./sample_data/template_1.json', 'r', encoding='utf-8') as arquivo:
     # Carrega os dados JSON do arquivo em um dicionário Python
         dados = json.load(arquivo)
 
