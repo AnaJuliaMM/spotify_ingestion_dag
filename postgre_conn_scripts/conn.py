@@ -1,3 +1,5 @@
+# Esse script extrai dados do arquivo "output" que contém uma amostra dos dados da API e os insere no banco de dados 
+
 import psycopg2
 import json
 

@@ -1,3 +1,4 @@
+# Esse script faz a requisição dos dados na SpotifyAPI e os armazena no banco de dados PostgreSQL
 import psycopg2
 import json
 import requests
