@@ -2,3 +2,4 @@
 venv
 postgres_conn/venv
 logs
+venv
