@@ -2,6 +2,9 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 from airflow.models import Variable
+import requests
+import psycopg2
+
 
 #  Etapa 1 - Faz a requisição do Token
 def requisitar_token():
@@ -28,10 +31,10 @@ def requisitar_token():
         # Se não, imprima o status code
         return token.status_code
 # Etapa 2 - Faz a requisição das músicas
-def ingestao():
+def ingestao(task_instance):
     try:
-
-        url = "https://api.spotify.com/v1/playlists/1BZo9URfhmlnt67zRYgM79?si=580665a897e54c64/tracks"
+        playlist_id = Variable.get("playlist_id")
+        url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         token = task_instance.xcom_pull(task_ids="requisitar_token")
         headers = {
@@ -39,7 +42,8 @@ def ingestao():
         }
 
         # Enviar solicitação GET para a API do Spotify com o token de acesso no cabeçalho de autorização
-        response = requests.get(url, headers=headers).json()
+        response = requests.get(url, headers=headers)
+        dados = response.json()
 
         # Verificar se a solicitação foi bem-sucedida (código de status 200)
         if response.status_code == 200:
@@ -55,7 +59,7 @@ def ingestao():
                 cursor = conn.cursor()
 
                 # Construção e execução da inserção de dados
-                for item in response["tracks"]["items"]:
+                for item in dados["items"]:
                     try:
                         # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
                         track = item['track']
