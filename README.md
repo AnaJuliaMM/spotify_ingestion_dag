@@ -3,36 +3,50 @@ Esse repositório contém o código para execução de uma DAG (Directed Acyclic
 
 Acesse nossos recursos: 🔗
 - [Engenharia de Dados](./markdowns/engenharia_dados.md)
-- [Documentação da DAG](./markdowns/dag_ingestao.md)
+- [Exemplo de uso da DAG](./markdowns/dag_ingestao.md)
 
 ## Estrutrura do projeto
 - `dags:` DAGS
-- `markdowns:` recursos de documentação
-- `postgres_conn:` scripts Python utilizados antes do desenvolvimento da DAG para execução manual
-- `docker-compose.yaml:` executar Apache Airflow no Docker
+- `dev:` scripts utilizados para desenvolvimento das tarefas da DAG
+- `markdown:` recursos de documentação do pipeline
+- `docker-compose.yaml:` configuração Docker para execução do Apache Airflow no Docker
 
 ## Pré-requisitos
 Antes de executar esta aplicação, é necessário garantir que você tenha os seguintes pré-requisitos instalados:
 
 - Python (versão 3.11.0 ou superior)
-- Apache Airflow - [tutorial de instalaçao e configuração](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html#initialize-the-database)
-- PostgreSQL - [tutotial de download](https://www.postgresql.org/download/)
-- Conta de desenvolvedor no Spotify para acesso à API
+- Docker e docker-compose
+- PostgreSQL 
+- Conta de desenvolvedor no Spotify para acesso à API - [documentação SpotifyAPI](https://developer.spotify.com/)
   
-Certifique-se de ter configurado corretamente o Apache Airflow e o PostgreSQL antes de prosseguir com a execução da aplicação.
 
 ## Como Executar
 Siga os passos abaixo para executar a aplicação:
 
-1. Inicie o servidor do Apache Airflow
-2. Certifique-se de que o PostgreSQL esteja em execução e acessível. Crie o banco de dados e a tabela para receber os dados
-3. Configure as variáveis de ambiente necessárias (credenciais do usuário e credenciais de conexão com o banco de dados)
-4. Execute a DAG de ingestão de músicas do Spotify no Apache Airflow.
-5. Monitore o progresso da execução da DAG no painel do Apache Airflow e verifique se não há erros relatados.
+1. Clone este repositório
+   ```
+   git clone https://github.com/AnaJuliaMM/comite_2602.git
+   ```
+2.  Utilize o arquivo _docker-compose.yaml_ para execução do Apache Airflow de acordo com o seguinte tutorial:
+     -  [Instale e configure o Apache Airflow em Docker](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html#initialize-the-data:~:text=initialize%20the%20database.-,Setting%20the%20right%20Airflow%20user,-On%20Linux%2C%20the)
+3. Crie um banco de dados no PostgreSQL e cria a seguinte tabela:      
+   ```
+   CREATE TABLE Musica (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    duracao_ms INTEGER NOT NULL,
+    artistas VARCHAR(255) NOT NULL,
+    nome_album VARCHAR(255),
+    data_lancamento DATE NOT NULL,
+    total_musicas_album INTEGER
+    );
+   ```
+2. Acesse a interface gráfica do Apache Airflow em `localhost:8080`
+3. No arquivo `airflow_variables.json` insira os valores das variáveis de acordo com seu contexto
+4. Na seção _Variables_ da interface, faça a o upload do arquivo e a importação das variáveis de ambiente
+5. Mude o status da DAG para ativo e execute o pipeline
+6. Visualize os dados inseridos no banco de dados:
 
-
-
-## Resultado esperado
 ![Captura de tela 2024-02-26 105852](https://github.com/AnaJuliaMM/comite_2602/assets/123522605/29ab1cc4-0843-4711-85f7-7edf9ff1d55c)
 
 

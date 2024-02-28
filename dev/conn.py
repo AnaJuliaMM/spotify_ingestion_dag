@@ -1,3 +1,5 @@
+# Esse script extrai dados do arquivo "output" que contém uma amostra dos dados da API e os insere no banco de dados 
+
 import psycopg2
 import json
 
@@ -12,7 +14,7 @@ try:
     cursor = conn.cursor()
 
    # Abre o arquivo 'dados.json' para leitura
-    with open('./sample/output.json', 'r', encoding='utf-8') as arquivo:
+    with open('./sample_data/template_1.json', 'r', encoding='utf-8') as arquivo:
     # Carrega os dados JSON do arquivo em um dicionário Python
         dados = json.load(arquivo)
 
