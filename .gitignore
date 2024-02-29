@@ -3,3 +3,5 @@ venv
 postgres_conn/venv
 logs
 venv
+__pycache__
+plugins
