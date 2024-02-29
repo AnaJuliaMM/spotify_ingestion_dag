@@ -2,8 +2,8 @@
 Esse repositório contém o código para execução de uma DAG (Directed Acyclic Graph), orquestrada pelo Apache Airflow, responsável por realizar a ingestão de músicas de uma playlist do Spotify para um banco de dados PostgreSQL.
 
 Acesse nossos recursos: 🔗
-- [Engenharia de Dados](./markdowns/engenharia_dados.md)
-- [Exemplo de uso da DAG](./markdowns/dag_ingestao.md)
+- [Engenharia de Dados](./docs/engenharia_dados.md)
+- [Exemplo de uso da DAG](./docs/dag_ingestao.md)
 
 ## Estrutrura do projeto
 - `dags:` DAGS
