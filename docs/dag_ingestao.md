@@ -24,7 +24,7 @@ A troca de dados entre as tarefas acontece utilizando o serviço XCOM para trans
 Uma playlist personalizada foi criada para a execução da DAG: [Playlist das estagiárias Squad 404](https://open.spotify.com/playlist/1BZo9URfhmlnt67zRYgM79).
 
 ### 2. Banco de dados
-Foi criado um banco de dados no PostgreSQL, e construída uma tabela para armazenar as informações selecionadas
+Foi criado um banco de dados no PostgreSQL, e feito a migração da tabela de armazenamento das informações selecionadas.[Acesse esse link para saber mais sobre essa etapa](./migrations.md) 
 
 ![Captura de tela 2024-02-26 105656](https://github.com/AnaJuliaMM/comite_2602/assets/123522605/e955aa29-a796-457d-9d27-e4e68acf9498)
 
