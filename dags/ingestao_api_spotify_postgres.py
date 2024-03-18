@@ -3,7 +3,6 @@ from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.operators.python import PythonOperator
 from airflow.models import Variable
-import logging
 from datetime import datetime
 import psycopg2
 import requests
@@ -55,7 +54,7 @@ def ingestao(task_instance):
                     pg_hook= PostgresHook(postgres_conn_id= 'local_postgres')
                     # Construção e execução da inserção de dados
                     for item in dados["items"]:
-                        try:
+                            
                             # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
                             track = item['track']
 
@@ -67,15 +66,11 @@ def ingestao(task_instance):
                             track_name = track['name'].replace("'", "''")
                             album_name = track['album']['name'].replace("'", "''")
                             
-                            pg_hook.run("INSERT INTO Musica (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
+                            pg_hook.run("INSERT INTO AAA (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
                                 f"VALUES ('{track_name}', {track['duration_ms']}, '{artistas_str}', '{album_name}', TO_DATE('{track['album']['release_date']}', 'YYYY-MM-DD'), {track['album']['total_tracks']})", autocommit= True)
-
-                        except psycopg2.Error as e:
-                                return f"Erro ao inserir dados no PostgreSQL:{e}"
-
-                        
+                         
                 except Exception as e:
-                    return f"Erro ao conectar com o PostgreSQL: {e}"
+                    raise e
 
             else:
                 # Se a solicitação não for bem-sucedida, imprima o código de status
@@ -84,7 +79,6 @@ def ingestao(task_instance):
     except requests.RequestException as e:
         # Se ocorrer um erro ao fazer a solicitação, imprima o erro
         return f"Erro ao fazer solicitação para a API do Spotify:, {e}"
-
 
 with DAG ("ingestao_api_spotify_postgres",
         start_date= datetime(2024,2,22),
