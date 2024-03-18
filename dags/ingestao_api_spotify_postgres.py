@@ -4,6 +4,7 @@ from datetime import datetime
 from airflow.models import Variable
 import requests
 import psycopg2
+from airflow.providers.postgres.operators.postgres import PostgresOperator
 
 
 #  Etapa 1 - Faz a requisição do Token
@@ -100,17 +101,24 @@ def ingestao(task_instance):
 
 
 with DAG ("ingestao_api_spotify_postgres", start_date= datetime(2024,2,22), schedule_interval= "30 * * * *", catchup= False) as dag:
-    # task 1  
+    # task 1
+    create_table= PostgresOperator(
+        task_id='create_table',
+        postgres_conn_id='local_postgres',
+        sql= "sql/create_table.sql"
+    )
+    
+    # task 2 
     requisitar_token= PythonOperator(
     task_id= "requisitar_token", 
     python_callable= requisitar_token
     )
 
-    # task 2
+    # task 3
     ingestao= PythonOperator(
     task_id= "ingestao",
     python_callable= ingestao
     )
 
     # interligando tasks
-    requisitar_token >> ingestao
+    create_table >> requisitar_token >> ingestao
