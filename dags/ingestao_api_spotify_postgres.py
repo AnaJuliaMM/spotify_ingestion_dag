@@ -1,12 +1,12 @@
 from airflow import DAG 
-from airflow.operators.python import PythonOperator
-from datetime import datetime
-from airflow.models import Variable
-import requests
-import psycopg2
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.postgres.operators.postgres import PostgresOperator
-
-
+from airflow.operators.python import PythonOperator
+from airflow.models import Variable
+import logging
+from datetime import datetime
+import psycopg2
+import requests
 #  Etapa 1 - Faz a requisição do Token
 def requisitar_token():
 
@@ -31,82 +31,70 @@ def requisitar_token():
     else:
         # Se não, imprima o status code
         return token.status_code
+
 # Etapa 2 - Faz a requisição das músicas
 def ingestao(task_instance):
+    
     try:
-        playlist_id = Variable.get("playlist_id")
-        url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+            playlist_id = Variable.get("playlist_id")
+            url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
-        token = task_instance.xcom_pull(task_ids="requisitar_token")
-        headers = {
-            "Authorization": f"Bearer {token}"
-        }
+            token = task_instance.xcom_pull(task_ids="requisitar_token")
+            headers = {
+                "Authorization": f"Bearer {token}"
+            }
 
-        # Enviar solicitação GET para a API do Spotify com o token de acesso no cabeçalho de autorização
-        response = requests.get(url, headers=headers)
-        dados = response.json()
+            # Enviar solicitação GET para a API do Spotify com o token de acesso no cabeçalho de autorização
+            response = requests.get(url, headers=headers)
+            dados = response.json()
 
-        # Verificar se a solicitação foi bem-sucedida (código de status 200)
-        if response.status_code == 200:
-            # conectar com o banco
-            try:
-             # Conectar com o banco de dados
-                conn = psycopg2.connect(
-                host= Variable.get("host"),
-                user= Variable.get("user"),
-                password= Variable.get("password"),
-                database= Variable.get("database")
-                    )
-                cursor = conn.cursor()
+            # Verificar se a solicitação foi bem-sucedida (código de status 200)
+            if response.status_code == 200:
 
-                # Construção e execução da inserção de dados
-                for item in dados["items"]:
-                    try:
-                        # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
-                        track = item['track']
+                try:
+                    pg_hook= PostgresHook(postgres_conn_id= 'local_postgres')
+                    # Construção e execução da inserção de dados
+                    for item in dados["items"]:
+                        try:
+                            # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
+                            track = item['track']
 
-                        # Extrair os nomes dos artistas e concatenar usando a palavra 'e'
-                        nomes_artistas = [artista['name'] for artista in track['album']['artists']]
-                        artistas_str = ' e '.join(nomes_artistas)
+                            # Extrair os nomes dos artistas e concatenar usando a palavra 'e'
+                            nomes_artistas = [artista['name'] for artista in track['album']['artists']]
+                            artistas_str = ' e '.join(nomes_artistas)
+                            
+                            # Tratar strings que contenham apóstrofos
+                            track_name = track['name'].replace("'", "''")
+                            album_name = track['album']['name'].replace("'", "''")
+                            
+                            pg_hook.run("INSERT INTO Musica (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
+                                f"VALUES ('{track_name}', {track['duration_ms']}, '{artistas_str}', '{album_name}', TO_DATE('{track['album']['release_date']}', 'YYYY-MM-DD'), {track['album']['total_tracks']})", autocommit= True)
+
+                        except psycopg2.Error as e:
+                                return f"Erro ao inserir dados no PostgreSQL:{e}"
+
                         
-                        # Tratar strings que contenham apóstrofos
-                        track_name = track['name'].replace("'", "''")
-                        album_name = track['album']['name'].replace("'", "''")
-                        
-                        cursor.execute(
-                            f"INSERT INTO Musica (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
-                            f"VALUES ('{track_name}', {track['duration_ms']}, '{artistas_str}', '{album_name}', TO_DATE('{track['album']['release_date']}', 'YYYY-MM-DD'), {track['album']['total_tracks']})"
-                        )
+                except Exception as e:
+                    return f"Erro ao conectar com o PostgreSQL: {e}"
 
-                    except psycopg2.Error as e:
-                        return f"Erro ao inserir dados no PostgreSQL:{e}"
-
-                # Confirmação da operação de inserção de dados e encerramento da conexão com o banco de dados
-                conn.commit()
-
-            except Exception as e:
-                return f"Erro ao conectar com o PostgreSQL: {e}"
-            finally:
-                cursor.close()
-                conn.close()
-                return f"Conexão com o PostgreSQL fechada"
-
-        else:
-            # Se a solicitação não for bem-sucedida, imprima o código de status
-            return response.status_code
+            else:
+                # Se a solicitação não for bem-sucedida, imprima o código de status
+                return response.status_code
 
     except requests.RequestException as e:
         # Se ocorrer um erro ao fazer a solicitação, imprima o erro
         return f"Erro ao fazer solicitação para a API do Spotify:, {e}"
 
 
-with DAG ("ingestao_api_spotify_postgres", start_date= datetime(2024,2,22), schedule_interval= "30 * * * *", catchup= False) as dag:
-    # task 1
+with DAG ("ingestao_api_spotify_postgres",
+        start_date= datetime(2024,2,22),
+        schedule_interval= "30 * * * *",catchup= False) as dag:
+
     create_table= PostgresOperator(
         task_id='create_table',
         postgres_conn_id='local_postgres',
         sql= "sql/create_table.sql"
-    )
+    )   
     
     # task 2 
     requisitar_token= PythonOperator(
