@@ -6,6 +6,7 @@ from airflow.models import Variable
 from datetime import datetime
 import psycopg2
 import requests
+import logging
 #  Etapa 1 - Faz a requisição do Token
 def requisitar_token():
 
@@ -54,6 +55,7 @@ def ingestao(task_instance):
                     pg_hook= PostgresHook(postgres_conn_id= 'local_postgres')
                     # Construção e execução da inserção de dados
                     for item in dados["items"]:
+                        try:
                             
                             # Acessar a chave 'track' do objeto item. Chave que armazena as informações das músicas 
                             track = item['track']
@@ -66,15 +68,21 @@ def ingestao(task_instance):
                             track_name = track['name'].replace("'", "''")
                             album_name = track['album']['name'].replace("'", "''")
                             
-                            pg_hook.run("INSERT INTO AAA (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
+                            pg_hook.run("INSERT INTO Musica (nome, duracao_ms, artistas, nome_album, data_lancamento, total_musicas_album) "
                                 f"VALUES ('{track_name}', {track['duration_ms']}, '{artistas_str}', '{album_name}', TO_DATE('{track['album']['release_date']}', 'YYYY-MM-DD'), {track['album']['total_tracks']})", autocommit= True)
+                            
+                        except Exception as e:
+                            print("Erro ao inserir dados no PostgreSQL:{e}")
+                            raise e
                          
                 except Exception as e:
+                    logging.exception(e)  
                     raise e
 
             else:
                 # Se a solicitação não for bem-sucedida, imprima o código de status
                 return response.status_code
+            
 
     except requests.RequestException as e:
         # Se ocorrer um erro ao fazer a solicitação, imprima o erro
