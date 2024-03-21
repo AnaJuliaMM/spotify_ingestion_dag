@@ -28,6 +28,8 @@ Antes de executar esta aplicação, é necessário garantir que você tenha os s
 
 Siga os passos abaixo para executar a aplicação:
 
+### Iniciar Apache Airflow com Docker
+
 1. Clone este repositório
 
    ```
@@ -41,18 +43,36 @@ Siga os passos abaixo para executar a aplicação:
    ```
 
 3. Inicie o Apache Airflow
+
    ```
    docker-compose up -d
    ```
+
 4. Acesse a interface gráfica do Apache Airflow em `localhost:8080`
 
-5. Crie um banco de dados no PostgreSQL
+### Airflow Connection (interface)
 
-6. No arquivo `airflow_variables.json` insira os valores das variáveis de acordo com seu contexto
+1. Crie um banco de dados no PostgreSQL
 
-7. Na seção _Variables_ da interface, faça a o upload do arquivo e a importação das variáveis de ambiente
+2. Na seção **Admin >> Connections**, crie uma conexão
 
-8. Mude o status da DAG para ativo e execute o pipeline
+```
+Connection Id= local_postgres
+Connection Type= Postgres
+Host = (servidor do banco de dados)
+Database = (nome do banco de dados) 
+Login = (usuário do banco de dados)
+Password = (senha do banco de dados)
+Port = (porta do servidor)
+```
+
+### Airflow Variables (interface)
+1. No arquivo `airflow_variables.json` insira os valores das variáveis de acordo com seu contexto
+
+2. Na seção **Admin >> Connections**, faça a o upload do arquivo e a importação das variáveis de ambiente
+
+### Execução
+ Mude o status da DAG para ativo e execute o pipeline!
 
 ## Resultado esperado
 
